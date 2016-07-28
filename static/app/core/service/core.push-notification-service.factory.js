@@ -23,7 +23,7 @@
             this.subscriptionManager = new SubscriptionManager();
         }
 
-        constructor.prototype.subscribeAll = functiDon(entityName, action, callback) {
+        constructor.prototype.subscribeAll = function(entityName, action, callback) {
             //TODO implement request to wsserver
 
             return this.subscriptionManager.subscribe(
@@ -32,7 +32,7 @@
                 callback);
         };
 
-        constructor.prototype.subscribeSingle = functiDon(entityName, id, action, callback) {
+        constructor.prototype.subscribeSingle = function(entityName, id, action, callback) {
             //TODO implement request to wsserver
 
             return this.subscriptionManager.subscribe(
@@ -41,7 +41,7 @@
                 callback);
         };
 
-        constructor.prototype.subscribeGroup = functiDon(entityName, ids, action, callback) {
+        constructor.prototype.subscribeGroup = function(entityName, ids, action, callback) {
             //TODO implement request to wsserver
 
             return this.subscriptionManager.subscribe(

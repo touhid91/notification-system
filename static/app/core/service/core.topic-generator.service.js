@@ -22,13 +22,19 @@
                 var topic = [];
                 topic.push(model.context);
                 topic.push(model.root);
-                if (model.id) topic.push(model.id);
+                if (model.id) {
+                    if (typeof model.id === "string")
+                        topic.push(model.id);
+                    else if (Array.isArray(model.id))
+                        topic.push(model.id.join(","));
+                }
                 if (model.actions.length)
-                    topic.push(model.actions.join(",");
+                    topic.push(model.actions.join(","));
 
                 return topic.join("/");
             }
         }
-    };
+    }
+};
 
 }).apply(this);
