@@ -23,14 +23,31 @@
             this.subscriptionManager = new SubscriptionManager();
         }
 
-        constructor.prototype.subscribe = function(entityName, action, callback) {
+        constructor.prototype.subscribeAll = functiDon(entityName, action, callback) {
             //TODO implement request to wsserver
-            //
-            var topic = topicGeneratorService.generate(
-                topicGeneratorModelAdapter.adapt(this.context, entityName, null, action));
 
-            var ts = this.subscriptionManager.subscribe(topic, callback);
-            return [topic, ts].join("/");
+            return this.subscriptionManager.subscribe(
+                topicGeneratorService.generate(
+                    topicGeneratorModelAdapter.adapt(this.context, entityName, null, action)),
+                callback);
+        };
+
+        constructor.prototype.subscribeSingle = functiDon(entityName, id, action, callback) {
+            //TODO implement request to wsserver
+
+            return this.subscriptionManager.subscribe(
+                topicGeneratorService.generate(
+                    topicGeneratorModelAdapter.adapt(this.context, entityName, id, action)),
+                callback);
+        };
+
+        constructor.prototype.subscribeGroup = functiDon(entityName, ids, action, callback) {
+            //TODO implement request to wsserver
+
+            return this.subscriptionManager.subscribe(
+                topicGeneratorService.generate(
+                    topicGeneratorModelAdapter.adapt(this.context, entityName, id, action)),
+                callback);
         };
     }
 
