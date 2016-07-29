@@ -11,11 +11,23 @@
 
     </div>
 
-    <!-- lib -->
-    <!-- <script src="lib/angular.min.js"></script>
-    <script src="lib/signalr-hub.js"></script> -->
+    <script src="lib/angular.min.js"></script>
 
-    <script src="lib/jquery-1.10.2.js"></script>
+    <script src="app/app.js"></script>
+
+    <script src="core/core.js"></script>
+    <script src="core/service/core.connection-factory.service.js"></script>
+    <script src="core/service/core.push-notification-service.factory.js"></script>
+    <script src="core/service/core.subscription-manager.factory.js"></script>
+    <script src="core/service/core.topic-generator-model-adapter.service.js"></script>
+    <script src="core/service/core.topic-generator.service.js"></script>
+    <script src="core/service/core.topic-registry.factory.js"></script>
+
+    <script src="root/root.js"></script>
+    <script src="root/root.controller.js"></script>
+
+
+    <!-- <script src="lib/jquery-1.10.2.js"></script>
     <script src="lib/jquery.signalR-2.0.0.js"></script>
     <script type="text/javascript">
         // var ecapUrl = "http://172.16.0.223/Selise.AppSuite.Notifier.NotifierServer";
@@ -42,8 +54,8 @@
         // connection.start({
         //     transport: "webSockets"
         // });
-    </script>
-    <script type="text/javascript">
+    </script> -->
+    <!-- <script type="text/javascript">
         var protocol = "ws",
             transport = "webSockets",
             endPoint = "172.16.0.223/Selise.AppSuite.Notifier.NotifierServer/signalr/connect",
@@ -73,20 +85,7 @@
         connection.onerror = function() {
             console.error("onerror");
         };
-    </script>
-    <!-- app -->
-    <!-- <script src="app/app.js"></script> -->
-
-    <!-- app.core -->
-    <!-- <script src="app/core/core.js"></script>
-    <script src="app/core/core.topic-generator.service.js"></script>
-    <script src="app/core/core.push-notification.service.js"></script> -->
-
-    <!-- app.root -->
-    <!-- <script src="app/root/root.js"></script>
-    <script src="app/root/root.controller.js"></script> -->
-
-
+    </script> -->
 </body>
 
 </html>

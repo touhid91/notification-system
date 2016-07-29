@@ -24,8 +24,8 @@
         };
 
         constructor.prototype._stepWValue = function(keys, registry, value) {
-            registry = registry === null || typeof registry === "number" && {} || registry || {};
-            
+            registry = null === registry || "number" === typeof registry && {} || registry || {};
+
             if (undefined === keys[0] || "" === keys[0])
                 return value;
 
@@ -39,9 +39,9 @@
                         value);
                 }
             } else registry[keys[0]] = this._stepWValue(
-                      keys.slice(1),
-                      registry[keys[0]],
-                      value);
+                keys.slice(1),
+                registry[keys[0]],
+                value);
 
             return registry;
         };

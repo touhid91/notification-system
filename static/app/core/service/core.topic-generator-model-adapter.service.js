@@ -10,7 +10,7 @@
     function constructor() {
         this.acceptedActions = [
             "create",
-            "delete"
+            "delete",
             "modify",
             "view"
         ];
