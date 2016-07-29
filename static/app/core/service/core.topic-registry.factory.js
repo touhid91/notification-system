@@ -1,36 +1,62 @@
 (function() {
-    "use strict";
+        "use strict";
 
-    var moudle = angular.module("app.core");
+        var moudle = angular.module("app.core");
 
-    module.factory("TopicRegistry", TopicRegistry);
+        module.factory("TopicRegistry", TopicRegistry);
 
-    function TopicRegistry() {
-        var constructor = function() {
-            this.splitter = "/";
-            this.registry = {
+        function TopicRegistry() {
+            var constructor = function() {
+                this.splitter = "/";
+                this.registry = {
 
+                };
             };
-        };
 
-        constructor.prototype.get = function(keyChain) {
-            var keys = keyChain.split(this.splitter);
-            for (var i = 0; i < keys.length; i++)
-                var head = head ? head[keys[i]] : this.registry[keys[i]];
-            return head;
-        };
+            constructor.prototype._step = function(keys, registry) {
+                if (undefined !== keys[0] && "" !== keys[0])
+                    return this._step(
+                        keys.slice(1),
+                        registry[keys[0]]);
+                return registry;
+            };
 
-        constructor.prototype.set = function(keyChain, value) {
-            var keys = keyChain.split(this.splitter);
-            for (var i = 0; i < keys.length; i++) {
-                var head = head ? head[keys[i]] : this.registry[keys[i]];
+            // constructor.prototype._step = function(keyChain, registry) {
+            //     var keys = keyChain.split(this.splitter);
+            //     if (undefined !== keyChain && "" !== keyChain)
+            //         return this._step(
+            //             keys.slice(1).join(this.splitter),
+            //             registry[keys[0]]);
+            //     return registry;
+            // };
 
-                //TODO
-                if (typeof this.registry[keys[i]] !== "object" || typeof this.registry[keys[i]] !== "undefined")
-                    throw "unexpected end of tree";
+            // constructor.prototype._stepWValue = function(keyChain, registry, value) {
+            //     var keys = keyChain.split(this.splitter);
+            //     if (undefined !== keyChain && "" !== keyChain)
+            //         return this._step(
+            //             keys.slice(1).join(this.splitter),
+            //             registry[keys[0]],
+            //             value);
+            //     return registry;
+            // };
 
-                if (i === keys.length - 1)
-                    this.registry[keys[i]] = value;
+            // var a = new constructor();
+            // a.registry = {
+            //     a: {
+            //         b: {
+            //             c: 1
+            //         }
+            //     }
+            // };
+
+            // a._step("a/b");
+
+            constructor.prototype.get = function(keyChain) {
+                return this._step(keyChain.split(this.splitter), this.registry);
+            };
+
+            constructor.prototype.set = function(keyChain, value) {
+
             }
 
             return this.registry;
