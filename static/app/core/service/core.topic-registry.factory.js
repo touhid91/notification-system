@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    var moudle = angular.module("app.core");
+    var module = angular.module("app.core");
 
     module.factory("TopicRegistry", TopicRegistry);
 

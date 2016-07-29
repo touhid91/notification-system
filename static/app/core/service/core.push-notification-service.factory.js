@@ -5,7 +5,7 @@
 
     module.factory("PushNotificationService", PushNotificationService);
 
-    pushNotificationService.$inject = [
+    PushNotificationService.$inject = [
         "webSocketConnectionFactory",
         "SubscriptionManager",
         "topicGeneratorService",
@@ -49,6 +49,8 @@
                     topicGeneratorModelAdapter.adapt(this.context, entityName, id, action)),
                 callback);
         };
+
+        return constructor;
     }
 
 }).apply(this);

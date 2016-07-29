@@ -32,6 +32,8 @@
             this.registry.set(topic, undefined);
             return topic;
         };
+
+        return constructor;
     }
 
 }).apply(this);
