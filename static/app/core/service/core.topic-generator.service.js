@@ -10,28 +10,22 @@
     function constructor() {
         /**
          * @function generate
-         * @arg {Object} model
+         * @param {heterogeneous array} model
+         * @param {linear array} divider
          * @returns {string} topic
          */
-        this.generate = function(model) {
-            if (!model.context)
-                throw "undefined context";
-            if (!model.root)
-                throw "undefined root";
+        this.generate = function(model, divider) {
+            if(!model)
+                throw "model must be defined";
 
-            var topic = [];
-            topic.push(model.context);
-            topic.push(model.root);
-            if (model.id) {
-                if (typeof model.id === "string")
-                    topic.push(model.id);
-                else if (Array.isArray(model.id))
-                    topic.push(model.id.join(","));
-            }
-            if (model.actions.length)
-                topic.push(model.actions.join(","));
+            if(!divider)
+                throw "divider must be defined";
 
-            return topic.join("/");
+            for (var i = 0; i < model.length; i++)
+                if (Array.isArray(model[i]))
+                    model[i] = model[i].join(divider[1]);
+
+            return model.join(divider[0]);
         };
     }
 

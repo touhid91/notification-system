@@ -15,28 +15,37 @@
             "view"
         ];
 
-        this.adapt = function(context, entityName, id, action) {
-            var model = {
-                context: context,
-                root: entityName,
-                id: id,
-                actions: []
-            };
+        this.normalize = function(context, entityName, id, action) {
+            //[context, entityName, [id], [action]]
+            var model = [
+                context,
+                entityName,
+                [],
+                []
+            ];
 
-            if (typeof action === "string")
-                if (this.acceptedActions.indexOf(action) > -1)
-                    model.actions.push(action);
-                else
-                    model.actions = this.acceptedActions;
-            else if (Array.isArray(action))
-                model.actions = action
-                .filter(function(value, index, self) {
-                    return self.indexOf(value) === index;
-                })
-                .sort()
-                .map(function(value) {
-                    return value.toLowerCase()
-                });
+            if (id)
+                if ("string" === typeof id || "number" === typeof id)
+                    model[2].push(id);
+                else if (Array.isArray(id))
+                    for (var i = 0; i < id.length; i++)
+                        model[2].push(id[i]);
+
+            if (action)
+                if ("string" === typeof action)
+                    if (this.acceptedActions.indexOf(action) > -1)
+                        model[3].push(action);
+                    else
+                        model[3] = this.acceptedActions;
+                else if (Array.isArray(action))
+                    model[3] = action
+                        .filter(function(value, index, self) {
+                            return /*unique*/ index === self.indexOf(value) && /*accepted*/ this.acceptedActions.indexOf(value) > -1;
+                        }.bind(this))
+                        .sort()
+                        .map(function(value) {
+                            return value.toLowerCase()
+                        });
 
             return model;
         }
