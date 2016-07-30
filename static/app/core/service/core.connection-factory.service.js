@@ -3,7 +3,7 @@
 
     var module = angular.module("app.core");
 
-    module.service("webSocketConnectionFactory", constructor);
+    module.service("connectionFactory", constructor);
 
     constructor.$inject = [];
 

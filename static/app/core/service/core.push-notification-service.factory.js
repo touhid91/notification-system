@@ -6,29 +6,30 @@
     module.factory("PushNotificationService", PushNotificationService);
 
     PushNotificationService.$inject = [
-        "webSocketConnectionFactory",
+        "connectionFactory",
         "SubscriptionManager",
-        "topicGeneratorService",
+        "TopicGenerator",
         "topicGeneratorModelAdapter"
     ];
 
     function PushNotificationService(
-        webSocketConnectionFactoryService,
+        connectionFactory,
         SubscriptionManager,
-        topicGeneratorService,
+        TopicGenerator,
         topicGeneratorModelAdapter) {
         var constructor = function(context) {
             this.context = context;
-            this.connection = webSocketConnectionFactoryService.create(context);
-            this.subscriptionManager = new SubscriptionManager();
+            this.connection = connectionFactory.create(context);
+            this.subscriptionManager = new SubscriptionManager([">", "+"]);
+            this.topicGenerator = new TopicGenerator([">", "+"]);
         }
 
         constructor.prototype.subscribeAll = function(entityName, action, callback) {
             //TODO implement request to wsserver
 
             return this.subscriptionManager.subscribe(
-                topicGeneratorService.generate(
-                    topicGeneratorModelAdapter.adapt(this.context, entityName, null, action)),
+                this.topicGenerator.generate(
+                    topicGeneratorModelAdapter.normalize(this.context, entityName, null, action)),
                 callback);
         };
 
@@ -36,8 +37,8 @@
             //TODO implement request to wsserver
 
             return this.subscriptionManager.subscribe(
-                topicGeneratorService.generate(
-                    topicGeneratorModelAdapter.adapt(this.context, entityName, id, action)),
+                this.topicGenerator.generate(
+                    topicGeneratorModelAdapter.normalize(this.context, entityName, id, action)),
                 callback);
         };
 
@@ -45,9 +46,13 @@
             //TODO implement request to wsserver
 
             return this.subscriptionManager.subscribe(
-                topicGeneratorService.generate(
-                    topicGeneratorModelAdapter.adapt(this.context, entityName, id, action)),
+                this.topicGenerator.generate(
+                    topicGeneratorModelAdapter.normalize(this.context, entityName, ids, action)),
                 callback);
+        };
+
+        constructor.prototype.unsubscribe = function (topic) {
+            return this.subscriptionManager.unsubscribe(topic);
         };
 
         return constructor;

@@ -16,7 +16,7 @@
         ];
 
         this.normalize = function(context, entityName, id, action) {
-            //[context, entityName, [id], [action]]
+            /*[context, entityName, [id], [action]]*/
             var model = [
                 context,
                 entityName,
