@@ -23,7 +23,7 @@
                     var notificationServiceEndpoint = "http://172.16.0.223/Selise.AppSuite.Notifier.NotifierServer/";
 
                     $http
-                        .get(notificationServiceEndpoint + "signalr/negotiate")
+                        .get(notificationServiceEndpoint + "signalr/negotiate?UserId=2494b8a1-5153-481f-9393-53595f53084b&TenantId=fa17992a-1490-4796-aad7-4651fac517c2&connectionData=%5B%7B%22name%22%3A%22notifierserverhub%22%7D%5D&clientProtocol=1.3&_=1470043291626")
                         .then(function(response) {
                             var meta = response.data;
                             deferral.resolve(function(hub, userId, tenantId) {
@@ -38,12 +38,12 @@
 
                                 qs.push(processQueryStringAttribute("transport", "webSockets"));
                                 qs.push(processQueryStringAttribute("connectionToken", meta.ConnectionToken));
-                                qs.push(processQueryStringAttribute("connectionId", meta.ConnectionId));
-                                qs.push(processQueryStringAttribute("connectionData", [{
-                                    name: hub.toLowerCase()
-                                }]));
                                 qs.push(processQueryStringAttribute("UserId", userId));
                                 qs.push(processQueryStringAttribute("TenantId", tenantId));
+                                qs.push(processQueryStringAttribute("connectionData", [{
+                                        name: hub.toLowerCase()
+                                    }
+                                ]));
                                 qs.push(processQueryStringAttribute("tid", Math.floor(Math.random() * 11)));
 
                                 var protocol = null === notificationServiceEndpoint.match(/https/)
@@ -51,24 +51,7 @@
                                     : "wss";
                                 var wsu = protocol + ":" + notificationServiceEndpoint.slice(notificationServiceEndpoint.indexOf("//")) + "signalr/connect?" + qs.join("&");
 
-                                var ws = new WebSocket(wsu);
-                                ws.onopen = function() {
-                                    console.info("onopen");
-                                };
-
-                                ws.onclose = function() {
-                                    console.info("onclose");
-                                };
-
-                                ws.onerror = function() {
-                                    console.error("onerror");
-                                };
-
-                                ws.onmessage = function() {
-                                    console.info("onmessage");
-                                };
-
-                                return ws;
+                                return new WebSocket(wsu);
                             });
                         }, deferral.reject);
 
@@ -78,7 +61,7 @@
             function processQueryStringAttribute(key, value) {
                 var val = "object" === typeof value
                     ? window.encodeURIComponent(JSON.stringify(value))
-                    : value;
+                    : window.encodeURIComponent(value);
                 return [key, val].join("=");
             }
         };

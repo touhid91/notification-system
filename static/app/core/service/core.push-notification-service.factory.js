@@ -27,6 +27,7 @@
                     if (!config || !Array.isArray(config))
                         throw "[[PushNotificationService]] :: config must be defined to establish ws connection";
                     this.ws = provide.apply(this, /*TODO add config adapter*/ config);
+                    // this.ws.close();
                 }.bind(this));
         }
 
