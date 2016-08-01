@@ -17,11 +17,17 @@
         SubscriptionManager,
         TopicGenerator,
         topicGeneratorModelAdapter) {
-        var constructor = function(context) {
+        var constructor = function(context, config) {
             this.context = context;
-            this.connection = connectionFactory.create(context);
             this.subscriptionManager = new SubscriptionManager([">", "+"]);
             this.topicGenerator = new TopicGenerator([">", "+"]);
+
+            connectionFactory.createAsync(context)
+                .then(function(provide) {
+                    if (!config || !Array.isArray(config))
+                        throw "[[PushNotificationService]] :: config must be defined to establish ws connection";
+                    this.ws = provide.apply(this, /*TODO add config adapter*/ config);
+                }.bind(this));
         }
 
         constructor.prototype.subscribeAll = function(entityName, action, callback) {
@@ -51,7 +57,7 @@
                 callback);
         };
 
-        constructor.prototype.unsubscribe = function (topic) {
+        constructor.prototype.unsubscribe = function(topic) {
             return this.subscriptionManager.unsubscribe(topic);
         };
 
