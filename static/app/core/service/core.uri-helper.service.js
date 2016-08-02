@@ -17,7 +17,7 @@
 
         this.composeQSFromKeyValues = function(queryKeyVals) {
             if (!queryKeyVals)
-                throw "[uriHelper] :: undefined param queryKeyVals";
+                return "";
 
             var qs = [];
             for (var i = 0; i < queryKeyVals.length; i++)

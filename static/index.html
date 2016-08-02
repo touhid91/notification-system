@@ -16,76 +16,18 @@
     <script src="app/app.js"></script>
 
     <script src="app/core/core.js"></script>
-    <script src="app/core/service/core.connection-factory.service.js"></script>
-    <script src="app/core/service/core.push-notification-service.factory.js"></script>
+    <script src="app/core/service/core.push-notification-service.service.js"></script>
+    <script src="app/core/service/core.pds-push-notification-service.factory.js"></script>
     <script src="app/core/service/core.subscription-manager.factory.js"></script>
     <script src="app/core/service/core.topic-generator-model-adapter.service.js"></script>
     <script src="app/core/service/core.topic-generator.factory.js"></script>
     <script src="app/core/service/core.heap-operation-helper.factory.js"></script>
     <script src="app/core/service/core.topic-registry.factory.js"></script>
+    <script src="app/core/service/core.notification-socket.factory.js" charset="utf-8"></script>
+    <script src="app/core/service/core.uri-helper.service.js" charset="utf-8"></script>
 
     <script src="app/root/root.js"></script>
     <script src="app/root/root.controller.js"></script>
-
-    <!-- <script src="lib/jquery-1.10.2.js"></script>
-    <script src="lib/jquery.signalR-2.0.0.js"></script>
-    <script type="text/javascript">
-        // var ecapUrl = "http://172.16.0.223/Selise.AppSuite.Notifier.NotifierServer";
-        // var connection = $.hubConnection(ecapUrl);
-        // connection.qs = "UserId=2494b8a1-5153-481f-9393-53595f53084b&TenantId=fa17992a-1490-4796-aad7-4651fac517c2";
-        //
-        // var chatHubProxy = connection.createHubProxy('notifierserverhub');
-        //
-        // chatHubProxy.on("Notify", function(message) {
-        //     console.log("I got message");
-        //     console.log(message);
-        //     if (message.NotificationType === notificationTypeEnum.all) {
-        //         alert("Get notification from all");
-        //     }
-        //     if (message.NotificationType === notificationTypeEnum.userSpecific) {
-        //         alert("Get notification from User specific");
-        //     }
-        //     if (message.NotificationType === notificationTypeEnum.filterSpecific) {
-        //         alert("Get notification from filterSpecific");
-        //     }
-        //
-        // });
-        //
-        // connection.start({
-        //     transport: "webSockets"
-        // });
-    </script> -->
-    <!-- <script type="text/javascript">
-        var protocol = "ws",
-            transport = "webSockets",
-            endPoint = "172.16.0.223/Selise.AppSuite.Notifier.NotifierServer/signalr/connect",
-            connectionToken = "fXB%2Fy8%2FPlY%2B5HXQV2GfuSvmjcWpUXj6iH11CmT424OVO%2B%2Bnue44njGzxWpsuKIDehgfja2BRjRZhtrb4y%2BlF%2F6kbXcHQHHtoOPSDRJAh%2Bmkvfe4COn%2FYrYv%2FLhgeatzO",
-            userId = "2494b8a1-5153-481f-9393-53595f53084b",
-            tenantId = "fa17992a-1490-4796-aad7-4651fac517c2",
-            connectionData = [{
-                "name": "notifierserverhub"
-            }];
-
-        var url = protocol + "://" + endPoint +
-            "?transport=" + transport +
-            "&connectionToken=" + connectionToken +
-            "&UserId=" + userId +
-            "&TenantId=" + tenantId +
-            "&connectionData=" + encodeURIComponent(JSON.stringify(connectionData)) + "&tid=1";
-
-        var connection = new WebSocket(url);
-        connection.onopen = function() {
-            console.info("onopen");
-        };
-
-        connection.onclose = function() {
-            console.info("onclose");
-        };
-
-        connection.onerror = function() {
-            console.error("onerror");
-        };
-    </script> -->
 </body>
 
 </html>

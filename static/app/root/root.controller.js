@@ -1,15 +1,27 @@
 (function() {
     "use strict";
 
-    var app = angular.module("app.root");
+    var module = angular.module("app.root");
 
-    app.controller("RootCtrl", function(PushNotificationService) {
-        var pns = new PushNotificationService("ecap.pds", ["notifierserverhub", "2494b8a1-5153-481f-9393-53595f53084b", "fa17992a-1490-4796-aad7-4651fac517c2"]);
-        var topic = pns.subscribeAll("person", "create", function() {
-            console.log("person updated");
-        });
+    module.controller("RootCtrl", constructor);
 
-        pns.unsubscribe(topic);
-    });
+    constructor.$inject = ["PDSPushNotificationService"];
 
+    function constructor(PDSPushNotificationService){
+        var pns = new PDSPushNotificationService();
+        pns.initAsync({
+                "transport":"webSockets",
+                "TenantId":"fa17992a-1490-4796-aad7-4651fac517c2",
+                "UserId":"2494b8a1-5153-481f-9393-53595f53084b",
+                "connectionData": [{ name: "notifierserverhub".toLowerCase() }]
+            })
+
+            .then(function(ns){
+                var topic = ns.subscribeAll("person", "create", function() {
+                    console.log("person updated");
+                });
+
+                ns.unsubscribe(topic);
+            });
+        }
 }).apply(this);

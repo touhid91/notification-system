@@ -3,7 +3,7 @@
 
     var module = angular.module("app.core");
 
-    module.factory("PDSPushNotificationService", pns);
+    module.factory("PDSPushNotificationService", PDSPushNotificationService);
 
     PDSPushNotificationService.$inject = ["pushNotificationService", "$q", "uriHelper"];
 
@@ -28,44 +28,15 @@
                         queryKeyVals["transport"] = "webSockets";
                     if (!queryKeyVals.hasOwnProperty("connectionToken"))
                         queryKeyVals["connectionToken"] = meta.ConnectionToken;
+                    if (!queryKeyVals.hasOwnProperty("tid"))
+                        queryKeyVals["tid"] = Math.floor(Math.random() * 11);
 
-                    deferral.resolve(pns.decorateNotificationSocket(this.serviceRoot + pns.signalr.connectPath, queryKeyVals));
+                    deferral.resolve(pns.decorateNotificationSocket(/*TODO ws/s*/"ws:"+this.serviceRoot.slice(this.serviceRoot.indexOf("//")) + pns.signalr.connectPath, queryKeyVals));
 
                 }.bind(this), deferral.reject);
 
             return deferral.promise;
         };
-
-        constructor.prototype.subscribeAll = function(entityName, action, callback) {
-            //TODO implement request to wsserver
-
-            return this
-                .subscriptionManager
-                .subscribe(this.topicGenerator.generate(topicGeneratorModelAdapter.normalize(this.context, entityName, null, action)), callback);
-        };
-
-        constructor.prototype.subscribeSingle = function(entityName, id, action, callback) {
-            //TODO implement request to wsserver
-
-            return this
-                .subscriptionManager
-                .subscribe(this.topicGenerator.generate(topicGeneratorModelAdapter.normalize(this.context, entityName, id, action)), callback);
-        };
-
-        constructor.prototype.subscribeGroup = function(entityName, ids, action, callback) {
-            //TODO implement request to wsserver
-
-            return this
-                .subscriptionManager
-                .subscribe(this.topicGenerator.generate(topicGeneratorModelAdapter.normalize(this.context, entityName, ids, action)), callback);
-        };
-
-        constructor.prototype.unsubscribe = function(topic) {
-            return this
-                .subscriptionManager
-                .unsubscribe(topic);
-        };
-
         return constructor;
     }
 

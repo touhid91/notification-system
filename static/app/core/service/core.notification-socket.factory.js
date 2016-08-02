@@ -15,7 +15,7 @@
          */
         var constructor = function(url, queryKeyVals) {
             this.url = url;
-            this.qs = uriHelper.composeFromKeyValues(queryKeyVals);
+            this.qs = uriHelper.composeQSFromKeyValues(queryKeyVals);
 
             this.divider = [">", "+"];
             this.registry = new TopicRegistry(this.divider);
@@ -53,6 +53,4 @@
 
         return constructor;
     }
-}
-
 }).apply(this);
