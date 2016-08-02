@@ -23,7 +23,7 @@
                     var notificationServiceEndpoint = "http://172.16.0.223/Selise.AppSuite.Notifier.NotifierServer/";
 
                     $http
-                        .get(notificationServiceEndpoint + "signalr/negotiate?UserId=2494b8a1-5153-481f-9393-53595f53084b&TenantId=fa17992a-1490-4796-aad7-4651fac517c2&connectionData=%5B%7B%22name%22%3A%22notifierserverhub%22%7D%5D&clientProtocol=1.3&_=1470043291626")
+                        .get(notificationServiceEndpoint + "signalr/negotiate")
                         .then(function(response) {
                             var meta = response.data;
                             deferral.resolve(function(hub, userId, tenantId) {
