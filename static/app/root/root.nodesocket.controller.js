@@ -21,6 +21,20 @@
         });
         // ns.unsubscribe(sub1Id);
         // ns.unsubscribe(sub2Id);
+        //
+
+        // ns.subscribeGenericSignalR({
+        //     Context: "person",
+        //     Action: ["create"],
+        //     Value: 123
+        // }, function(){
+        //
+        // });
+        //
+        //
+        // ecap.subscribeAll("person", ["create", "edit"], function(){
+        //
+        // });
     };
 })
 .apply(this);
