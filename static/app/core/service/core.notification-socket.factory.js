@@ -29,7 +29,6 @@
          */
         constructor.prototype.subscribe = function(topic, callback) {
             var key = [topic, new Date().getTime()].join(this.divider[0]);
-            console.log(key);
             this.registry.replace(key, callback);
             return key;
         };
@@ -41,7 +40,6 @@
          */
         constructor.prototype.unsubscribe = function(topic) {
             this.registry.delete(topic);
-            console.log(topic);
             return topic;
         };
 
