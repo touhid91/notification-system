@@ -28,7 +28,7 @@
         };
 
         this.composeURI = function(path, qs) {
-            return path + "?" + qs;
+            return qs ? path + "?" + qs : path;
         }
 
         this.isHTTPS = function(path) {
