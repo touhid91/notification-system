@@ -19,11 +19,11 @@
 
             this.divider = [">", "+"];
             this.registry = new TopicRegistry(this.divider);
-            this.socket = new WebSocket(uriHelper.composeURI(this.url,this.qs));
+            this.socket = new WebSocket(uriHelper.composeURI(this.url, this.qs));
             this.callbackMap = {};
 
-            this.socket.onmessage = function(event){
-                angular.forEach(this.callbackMap, function(callback){
+            this.socket.onmessage = function(event) {
+                angular.forEach(this.callbackMap, function(callback) {
                     callback(event.data);
                 })
             }.bind(this);
@@ -35,7 +35,8 @@
          * @returns {number} timestamp
          */
         constructor.prototype.subscribe = function(topic, callback) {
-            var key = [topic, new Date().getTime()].join(this.divider[0]);
+            var key = [topic, new Date()
+                .getTime()].join(this.divider[0]);
             this.registry.replace(key, callback);
             return key;
         };
@@ -54,22 +55,24 @@
          * @function publish
          * @param {string} topic
          */
-        constructor.prototype.publish = function (topic, message) {
-            throw "[NotificationSocket] :: not implemented";
+        constructor.prototype.publish = function(message) {
+            var payload = angular.isString(message) ? message : JSON.stringify(message);
+            this.socket.send(payload);
         };
 
-        constructor.prototype.subscribe = function (subscriberCallback) {
-            if(!angular.isFunction(subscriberCallback))
+        constructor.prototype.subscribe = function(subscriberCallback) {
+            if (!angular.isFunction(subscriberCallback))
                 return;
             var id = Date.now();
             this.callbackMap[id] = subscriberCallback;
             return id;
         };
 
-        constructor.prototype.unsubscribe = function (subscriberId) {
+        constructor.prototype.unsubscribe = function(subscriberId) {
             delete this.callbackMap[subscriberId];
         };
 
         return constructor;
     }
-}).apply(this);
+})
+.apply(this);
