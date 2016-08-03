@@ -12,7 +12,6 @@
             value = "object" === typeof value ?
                 window.encodeURIComponent(JSON.stringify(value)) :
                 window.encodeURIComponent(value);
-            console.log(value);
             return ([attribute, value].join("="));
         };
 

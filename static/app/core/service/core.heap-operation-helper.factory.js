@@ -51,6 +51,18 @@
             if (undefined === keys[0] || "" === keys[0])
                 return delete heap[tail];
 
+            if (keys[0].indexOf(this.divider[1]) > -1) {
+                var siblings = keys[0].split(this.divider[1]);
+                for (var i = 0; i < siblings.length; i++) {
+                    keys[0] = siblings[i];
+
+                    this.delete(
+                        keys.slice(1),
+                        tail,
+                        heap[keys[0]]);
+                }
+            }
+
             return this.delete(
                 keys.slice(1),
                 tail,
@@ -59,4 +71,5 @@
 
         return constructor;
     }
-}).apply(this);
+})
+.apply(this);

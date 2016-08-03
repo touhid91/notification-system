@@ -85,7 +85,14 @@
         };
 
         constructor.prototype.unsubscribe = function(topic) {
-            return this.notificationSocket.unsubscribe(topic);
+            if (!Array.isArray(topic))
+                return this.notificationSocket.unsubscribe(topic);
+            else {
+                var result = true;
+                for (var i = 0; i < topic.length; i++)
+                    result = result && this.notificationSocket.unsubscribe(topic[i]);
+                return result;
+            }
         };
 
 
