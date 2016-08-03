@@ -20,6 +20,13 @@
             this.divider = [">", "+"];
             this.registry = new TopicRegistry(this.divider);
             this.socket = new WebSocket(uriHelper.composeURI(this.url,this.qs));
+            this.callbackMap = {};
+
+            this.socket.onmessage = function(event){
+                angular.forEach(this.callbackMap, function(callback){
+                    callback(event.data);
+                })
+            }.bind(this);
         };
 
         /**
@@ -49,6 +56,18 @@
          */
         constructor.prototype.publish = function (topic, message) {
             throw "[NotificationSocket] :: not implemented";
+        };
+
+        constructor.prototype.subscribe = function (subscriberCallback) {
+            if(!angular.isFunction(subscriberCallback))
+                return;
+            var id = Date.now();
+            this.callbackMap[id] = subscriberCallback;
+            return id;
+        };
+
+        constructor.prototype.unsubscribe = function (subscriberId) {
+            delete this.callbackMap[subscriberId];
         };
 
         return constructor;

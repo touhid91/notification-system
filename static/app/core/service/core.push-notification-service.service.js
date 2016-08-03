@@ -23,9 +23,11 @@
          * @param {object} queryKeyVals
          * @returns new instance of NotificationSocket
          */
-        this.decorateNotificationSocket = function(url, queryKeyVals) {
+        this.createSocket = function(url, queryKeyVals) {
             return new NotificationSocket(url, queryKeyVals);
         }
+
+        
     }
 
 }).apply(this);
