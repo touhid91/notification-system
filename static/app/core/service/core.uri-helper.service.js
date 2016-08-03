@@ -9,26 +9,34 @@
 
     function constructor() {
         this.encodeQSComponent = function(attribute, value) {
-            value = "object" === typeof value
-                ? window.encodeURIComponent(JSON.stringify(value))
-                : window.encodeURIComponent(value);
-            return ([key, value].join("="));
+            value = "object" === typeof value ?
+                window.encodeURIComponent(JSON.stringify(value)) :
+                window.encodeURIComponent(value);
+            console.log(value);
+            return ([attribute, value].join("="));
         };
 
         this.composeQSFromKeyValues = function(queryKeyVals) {
             if (!queryKeyVals)
                 return "";
 
-            var qs = [];
-            for (var i = 0; i < queryKeyVals.length; i++)
-                qs.push(this.encodeQSComponent(Object.keys(queryKeyVals)[i], queryKeyVals)[i]);
+            var keys = Object.keys(queryKeyVals),
+                qs = [];
+            for (var i = 0; i < keys.length; i++)
+                qs.push(this.encodeQSComponent(keys[i], queryKeyVals[keys[i]]));
 
-            return qs;
+            return qs.join("&");
         };
 
         this.composeURI = function(path, qs) {
             return path + "?" + qs;
         }
+
+        this.isHTTPS = function(path) {
+            new URL(path)
+                .protocol.indexOf("https") === 0;
+        }
     }
 
-}).apply(this);
+})
+.apply(this);
