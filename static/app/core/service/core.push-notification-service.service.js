@@ -25,7 +25,11 @@
          */
         this.createSocket = function(url, queryKeyVals) {
             return new Socket(url, queryKeyVals);
-        }
+        };
+
+        this.createSignalrSocket = function(url, queryKeyVals) {
+            return new SignalrSocket(url, queryKeyVals);
+        };
 
 
     }
