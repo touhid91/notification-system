@@ -5,9 +5,9 @@
 
     module.service("pushNotificationService", constructor);
 
-    constructor.$inject = ["NotificationSocket","$http","uriHelper"];
+    constructor.$inject = ["Socket", "$http", "uriHelper"];
 
-    function constructor(NotificationSocket,$http,uriHelper) {
+    function constructor(Socket, $http, uriHelper) {
         this.signalr = {
             negotiatePath: "signalr/negotiate",
             connectPath: "signalr/connect",
@@ -24,10 +24,11 @@
          * @returns new instance of NotificationSocket
          */
         this.createSocket = function(url, queryKeyVals) {
-            return new NotificationSocket(url, queryKeyVals);
+            return new Socket(url, queryKeyVals);
         }
 
-        
+
     }
 
-}).apply(this);
+})
+.apply(this);

@@ -3,11 +3,11 @@
 
     var module = angular.module("app.core");
 
-    module.factory("NotificationSocket", NotificationSocket);
+    module.factory("Socket", Socket);
 
-    NotificationSocket.$inject = ["TopicRegistry", "uriHelper"];
+    Socket.$inject = ["Registry", "uriHelper"];
 
-    function NotificationSocket(TopicRegistry, uriHelper) {
+    function Socket(Registry, uriHelper) {
         /**
          * @constructor
          * @param {string} url
@@ -18,7 +18,7 @@
             this.qs = uriHelper.composeQSFromKeyValues(queryKeyVals);
 
             this.divider = [">", "+"];
-            this.registry = new TopicRegistry(this.divider);
+            this.registry = new Registry(this.divider);
             this.socket = new WebSocket(uriHelper.composeURI(this.url, this.qs));
             this.callbackMap = {};
 

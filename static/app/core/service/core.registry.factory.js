@@ -3,18 +3,18 @@
 
     var module = angular.module("app.core");
 
-    module.factory("TopicRegistry", TopicRegistry);
+    module.factory("Registry", Registry);
 
-    TopicRegistry.$inject = ["HeapOperationHelper"];
+    Registry.$inject = ["HeapOperationHelper"];
 
-    function TopicRegistry(HeapOperationHelper) {
+    function Registry(HeapOperationHelper) {
         /**
          * @constructor
          * @param {linear array} divider
          */
         var constructor = function(divider) {
             if (!divider)
-                throw "[TopicRegistry] :: divider must be defined";
+                throw "[Registry] :: divider must be defined";
 
             this.divider = divider;
             this.heap = {};
@@ -36,7 +36,7 @@
 
         constructor.prototype.delete = function(keyChain) {
             if (keyChain.indexOf(this.divider[0]) === -1)
-                throw "[TopicRegistry] :: argument keyChain must have one leaf node";
+                throw "[Registry] :: argument keyChain must have one leaf node";
 
             var parent = keyChain.substring(0, keyChain.lastIndexOf(this.divider[0])),
                 tail = keyChain.slice(keyChain.lastIndexOf(this.divider[0]) + 1);
