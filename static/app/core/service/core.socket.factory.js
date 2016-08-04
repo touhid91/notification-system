@@ -5,23 +5,22 @@
 
     module.factory("Socket", Socket);
 
-    Socket.$inject = ["Registry", "uriHelper", "constant"];
+    Socket.$inject = ["uriHelper", "CONSTANT"];
 
-    function Socket(Registry, uriHelper, constant) {
+    function Socket(uriHelper, CONSTANT) {
         /**
          * @constructor
          * @param {string} url
          * @param {object} queryKeyVals
          */
         var constructor = function(url, queryKeyVals) {
-            this.registry = new Registry(constant.seperator);
-            this.socket = new WebSocket(uriHelper.composeURI(url, uriHelper.composeQSFromKeyValues(queryKeyVals)));
+            this.ws = new WebSocket(uriHelper.composeURI(url, uriHelper.composeQSFromKeyValues(queryKeyVals)));
             this.callbackMap = [];
 
-            this.socket.onmessage = function(event) {
+            this.ws.onmessage = function(event) {
                 angular.forEach(this.callbackMap, function(callback) {
                     callback(event.data);
-                })
+                });
             }.bind(this);
         };
 
@@ -31,7 +30,7 @@
          */
         constructor.prototype.publish = function(message) {
             var payload = angular.isString(message) ? message : JSON.stringify(message);
-            this.socket.send(payload);
+            this.ws.send(payload);
         };
 
         /**

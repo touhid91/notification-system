@@ -13,11 +13,11 @@
          * @param {heterogeneous array} model
          * @returns {string} topic
          */
-        var constructor = function(divider) {
-            if (!divider)
-                throw "[TopicGenerator] :: divider must be defined";
+        var constructor = function(seperator) {
+            if (!seperator)
+                throw "[TopicGenerator] :: seperator must be defined";
 
-            this.divider = divider;
+            this.seperator = seperator;
         }
 
         constructor.prototype.generate = function(model) {
@@ -29,9 +29,9 @@
                     if (model[i].length === 0)
                         model.splice(i, 1);
                     else
-                        model[i] = model[i].join(this.divider[1]);
+                        model[i] = model[i].join(this.seperator[1]);
 
-            return model.join(this.divider[0]);
+            return model.join(this.seperator[0]);
         };
 
         return constructor;

@@ -3,8 +3,8 @@
 
     var module = angular.module("app.core");
 
-    module.constant("constant", {
-        seperator : [">", "+"]
+    module.constant("CONSTANT", {
+        SEPERATOR : [">", "+"]
     });
 
 })

@@ -5,28 +5,25 @@
 
     module.service("pushNotificationService", constructor);
 
-    constructor.$inject = ["Socket", "$http", "uriHelper"];
+    constructor.$inject = ["Socket", "SignalrSocket"];
 
-    function constructor(Socket, $http, uriHelper) {
-        this.signalr = {
-            negotiatePath: "signalr/negotiate",
-            connectPath: "signalr/connect",
-            negotiate: function(serviceRoot, queryKeyVals) {
-                var url = serviceRoot + this.negotiatePath;
-                return $http.get(uriHelper.composeURI(url, uriHelper.composeQSFromKeyValues(queryKeyVals)));
-            }
-        };
-
+    function constructor(Socket, SignalrSocket) {
         /**
-         * @function decorateNotificationSocket
+         * @function createSocket
          * @param {string} url
          * @param {object} queryKeyVals
-         * @returns new instance of NotificationSocket
+         * @returns new instance of Socket
          */
         this.createSocket = function(url, queryKeyVals) {
             return new Socket(url, queryKeyVals);
         };
 
+        /**
+         * @function createSignalrSocket
+         * @param {string} url
+         * @param {object} queryKeyVals
+         * @returns new instance of SignalrSocket
+         */
         this.createSignalrSocket = function(url, queryKeyVals) {
             return new SignalrSocket(url, queryKeyVals);
         };

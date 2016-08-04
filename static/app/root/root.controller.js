@@ -8,15 +8,15 @@
     constructor.$inject = ["PDSPushNotificationService"];
 
     function constructor(PDSPushNotificationService) {
-        var pns = new PDSPushNotificationService();
-        pns.initAsync({
+        var pns = new PDSPushNotificationService(undefined, {
             "transport": "webSockets",
             "TenantId": "fa17992a-1490-4796-aad7-4651fac517c2",
             "UserId": "2494b8a1-5153-481f-9393-53595f53084b",
             "connectionData": [{
                 name: "notifierserverhub".toLowerCase()
             }]
-        })
+        });
+        pns.create()
 
         .then(function() {
             var topicAll = pns.subscribeAll("person", "create", function() {

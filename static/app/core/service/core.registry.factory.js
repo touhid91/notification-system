@@ -46,4 +46,5 @@
         return constructor;
     }
 
-}).apply(this);
+})
+.apply(this);

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Sig Test</title>
+
+    <script src="lib/jquery-1.10.2.min.js"></script>
+    <script src="lib/jquery.signalR-2.0.0.js"></script>
+    <style type="text/css">
+        .container {
+            background-color: #99CCFF;
+            border: thick solid #808080;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function() {
+
+            var notificationTypeEnum = {
+                all: "BroadcastReceiverType",
+                filterSpecific: "FilterSpecificReceiverType",
+                userSpecific: "UserSpecificReceiverType"
+            };
+
+
+            var azure = "http://hasibsignalr.azurewebsites.net";
+            var localUrl = "http://localhost:27203";
+            var notifier = "http://localhost/NotifierServer";
+            var ecapUrl = "http://172.16.0.223/Selise.AppSuite.Notifier.NotifierServer";
+            var url = ecapUrl;
+            //$("#clientName").text("Client Machine Name: " + machineName);
+            var connection = $.hubConnection(url);
+            //connection.qs = "UserId=2494b8a1-5153-481f-9393-53595f53084b&TenantId=fa17992a-1490-4796-aad7-4651fac517c2"; //pass your query string
+            //connection.qs = "UserId=54c5fd7b-333c-404a-a068-958e15e03e9e&TenantId=200de79b-dccd-4965-bc93-0a6a8e6ae355"; //pass your query string
+            var toke =
+                "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0ZW5hbnRfaWQiOiIyMDBERTc5Qi1EQ0NELTQ5NjUtQkM5My0wQTZBOEU2QUUzNTUiLCJzdWIiOiI3YmZkYzU1NC0zYzMzLTRhNDAtYTA2OC05NThlMTVlMDNlOWUiLCJzaXRlX2lkIjoiRUU3ODU5MkQtNTI3Qy00NDhBLTlCNjQtRThDNzI3MUNDMDA4Iiwib3JpZ2luIjoiZGV2LnNlbGlzZS5iaXoiLCJzZXNzaW9uX2lkIjoiODBlMmU5MzI4M2QwNDZlNDlhMDg4MzY4YThhNWNkY2EiLCJ1c2VyX2lkIjoiN2JmZGM1NTQtM2MzMy00YTQwLWEwNjgtOTU4ZTE1ZTAzZTllIiwiZGlzcGxheV9uYW1lIjoiTWQuIEFidWwgS2FzaW0iLCJzaXRlX25hbWUiOiJKYW1haG9vayBUZWFtIiwidXNlcl9uYW1lIjoiYWJ1bC5rYXNpbUBzZWxpc2UuY2giLCJ1bmlxdWVfbmFtZSI6IjdiZmRjNTU0LTNjMzMtNGE0MC1hMDY4LTk1OGUxNWUwM2U5ZSIsInJvbGUiOlsiYXBwdXNlciIsImFwcHVzZXIiXSwiaXNzIjoiaHR0cDovL3NlbGlzZS5jaCIsImF1ZCI6IioiLCJleHAiOjE0NzI4MjA2MTIsIm5iZiI6MTQ3MDIyODYxMn0.8v3-BBN_Z-DKk3yMg-mzlsloOjtswe-2-J78oMY4CzA";
+
+            connection.qs = "Authorization=" + toke;
+
+            var chatHubProxy = connection.createHubProxy('NotifierServerHub');
+            var actionName = ['Notify'];
+            chatHubProxy.on(actionName[0], function(message) {
+                console.log("I got message");
+                console.log(message);
+                if (message.NotificationType === notificationTypeEnum.all) {
+                    alert("Get notification from all");
+                }
+                if (message.NotificationType === notificationTypeEnum.userSpecific) {
+                    alert("Get notification from User specific");
+                }
+                if (message.NotificationType === notificationTypeEnum.filterSpecific) {
+                    alert("Get notification from filterSpecific");
+                }
+
+            });
+
+            //connection.start({ jsonp: true }).done(function () {
+            //var searchCriterias = [{ key: 'key1', value: 'value1' }, { key: 'key2', value: 'value2' }];
+            var searchCriterias = {
+                key1: 'value1',
+                key2: 'value2'
+            };
+            var subscriptionFilters = [{
+                Context: "Product",
+                ActionName: "Save",
+                Value: "123"
+            }];
+            var notifierPayload = {
+                TenantId: "fa17992a-1490-4796-aad7-4651fac517c2",
+                UserId: "2494b8a1-5153-481f-9393-53595f53084b",
+                SubscriptionFilters: subscriptionFilters
+            };
+
+            connection.start().done(function() {
+                console.log("connected");
+                $('#sendmessage').click(function() {
+                    chatHubProxy.invoke('Subscribe', JSON.stringify({
+                        MessageKey: "HELLO1",
+                        SearchCriterias: searchCriterias,
+                        Context: "",
+                        IdentifierValue: "",
+                        Message: "",
+                        SubscriptionType: "88db7834-ea05-4d8f-8e3f-09521fd38691"
+                    }));
+                    console.log("Action performed");
+                });
+
+                $('#subscribeFilter').click(function() {
+
+                    chatHubProxy.invoke('Subscribe', JSON.stringify(notifierPayload));
+                    console.log("Action performed");
+                });
+
+                $('#removeSubscription').click(function() {
+
+                    chatHubProxy.invoke('Unsubscribe', JSON.stringify(notifierPayload));
+                    console.log("Action performed");
+                });
+
+
+            }).fail(function(a) {
+                console.log('not connected' + a);
+            });
+
+
+
+
+
+
+
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <h4>I am from User  2494b8a1-5153-481f-9393-53595f53084b and Tenant fa17992a-1490-4796-aad7-4651fac517c2</h4>
+        <input type="button" id="subscribeFilter" value="Subscribe for Filter Subscription" />
+        <input type="button" id="removeSubscription" value="Unsubscribe" />
+        <input type="hidden" id="displayname" />
+        <ul style="list-style-type: none" id="discussion"></ul>
+    </div>
+
+</body>
+
+</html>
